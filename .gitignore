@@ -1,0 +1,28 @@
+# Credentials - NEVER commit these
+credentials.json
+token.json
+
+# Downloaded files
+downloaded_invoices/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.env
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+

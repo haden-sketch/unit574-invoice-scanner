@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  invoice-scanner:
+    build: .
+    container_name: unit574-invoice-scanner
+    volumes:
+      # Persistent storage for downloaded invoices
+      - invoice_data:/var/invoices/unit_574
+      # Mount your credentials (you'll need to add credentials.json here)
+      - ./credentials:/app/credentials
+    environment:
+      - DOWNLOAD_DIR=/var/invoices/unit_574
+      - GMAIL_CREDENTIALS_PATH=/app/credentials/credentials.json
+      - GMAIL_TOKEN_PATH=/app/credentials/token.json
+    restart: unless-stopped
+
+volumes:
+  invoice_data:
+    driver: local
+
