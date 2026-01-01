@@ -17,16 +17,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY config.py scanner.py ./
 
-# Create directory for downloads and credentials
-RUN mkdir -p /var/invoices/unit_574 /app/credentials
+# Create directory for downloads
+RUN mkdir -p /app/downloaded_invoices
 
 # Set environment variables
-ENV DOWNLOAD_DIR=/var/invoices/unit_574
-ENV GMAIL_CREDENTIALS_PATH=/app/credentials/credentials.json
-ENV GMAIL_TOKEN_PATH=/app/credentials/token.json
-
-# Volume for persistent storage
-VOLUME ["/var/invoices/unit_574", "/app/credentials"]
+ENV DOWNLOAD_DIR=/app/downloaded_invoices
+ENV GMAIL_CREDENTIALS_PATH=/app/credentials.json
+ENV GMAIL_TOKEN_PATH=/app/token.json
 
 # Run scanner
 CMD ["python", "scanner.py"]
