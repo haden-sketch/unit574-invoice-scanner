@@ -177,9 +177,21 @@ EXCLUDE_SENDERS = [
 _default_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "downloaded_invoices")
 DOWNLOAD_DIR = os.environ.get("DOWNLOAD_DIR", _default_dir)
 
-# Gmail API credentials
-CREDENTIALS_PATH = os.environ.get("GMAIL_CREDENTIALS_PATH", "credentials.json")
-TOKEN_PATH = os.environ.get("GMAIL_TOKEN_PATH", "token.json")
+# Gmail API credentials - Railway puts secret files in /app/
+# Check multiple possible locations
+def _find_file(filename):
+    possible_paths = [
+        f"/app/{filename}",  # Railway secret files location
+        filename,  # Current directory
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), filename),  # Same dir as script
+    ]
+    for path in possible_paths:
+        if os.path.exists(path):
+            return path
+    return filename  # Default fallback
+
+CREDENTIALS_PATH = os.environ.get("GMAIL_CREDENTIALS_PATH", _find_file("credentials.json"))
+TOKEN_PATH = os.environ.get("GMAIL_TOKEN_PATH", _find_file("token.json"))
 
 # =============================================================================
 # GMAIL API SETTINGS
